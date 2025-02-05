@@ -1,7 +1,8 @@
 'use client';
 
-import { authenticate, getSession } from '@/app/actions/authenticate';
+import { authenticate } from '@/app/libs/actions';
 import { useFormState, useFormStatus } from 'react-dom';
+import { signIn } from '../libs/auth';
 
 function LoginButton() {
   const { pending } = useFormStatus();
@@ -24,7 +25,7 @@ export default function Page() {
 
   return (
     <div>
-      <form action={dispatch}>
+      <form action={async (formData) => await signIn('credentials', formData)}>
         <input type="text" name="email" />
         <input type="password" name="password" />
         <div>{errorMessage && <p>{errorMessage}</p>}</div>

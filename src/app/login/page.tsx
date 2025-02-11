@@ -2,7 +2,7 @@
 
 import { authenticate } from '@/app/libs/actions';
 import { useFormState, useFormStatus } from 'react-dom';
-import { signIn } from '../libs/auth';
+import { signOut } from 'next-auth/react';
 
 function LoginButton() {
   const { pending } = useFormStatus();
@@ -25,11 +25,12 @@ export default function Page() {
 
   return (
     <div>
-      <form action={async (formData) => await signIn('credentials', formData)}>
+      <form action={dispatch}>
         <input type="text" name="email" />
         <input type="password" name="password" />
         <div>{errorMessage && <p>{errorMessage}</p>}</div>
         <LoginButton />
+        <button onClick={() => signOut()}>Logout</button>
       </form>
     </div>
   );

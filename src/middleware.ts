@@ -1,4 +1,4 @@
-export { auth as middleware } from '@/app/libs/auth';
+export { auth as middleware } from './auth';
 
 // import type { NextRequest } from 'next/server'
  

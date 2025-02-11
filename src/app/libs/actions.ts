@@ -1,13 +1,17 @@
 'use server';
 
-import { signIn } from '@/app/libs/auth';
-import { isRedirectError } from 'next/dist/client/components/redirect';
+import { signIn } from '@/auth';
 
 export const authenticate = async (_currentState: string | undefined, formData: FormData) => {
   try {
     return await signIn('credentials', formData);
   } catch (error) {
-    console.log(error.message, error.type);
+    if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+      throw error;
+    }
+
+    console.log('error action', error);
+
     if (error) {
       switch (error.type) {
         case 'CredentialSignIn':
@@ -16,7 +20,7 @@ export const authenticate = async (_currentState: string | undefined, formData: 
           return 'Something went wrong'; 
       }
     }
-    console.log(error.message, error.type);
+    
     throw error;
   }
 }
